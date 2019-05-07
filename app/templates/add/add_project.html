@@ -1,0 +1,14 @@
+{% extends "common/base.html" %}
+{% import "common/wtf.html" as wtf %}
+
+{% block title %}添加项目{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox-content">
+            {{ wtf.quick_form(form)}}
+        </div>
+    </div>
+</div>
+{% endblock %}

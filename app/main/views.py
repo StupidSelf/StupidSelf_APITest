@@ -2,12 +2,19 @@
 # @Author   : sonny.zhang
 # @FileName : views.py
 # @github   : @sonny-zhang
-from flask import render_template, redirect, url_for, current_app, request, flash
+from flask import render_template, redirect, url_for, current_app, request, flash, jsonify
 from flask.views import MethodView
 from sqlalchemy import desc
 from app import db
-from app.models import Work
-from .forms import WorkForm
+from app.models import Project
+from .forms import ProjectForm
+from typing import Any, Optional, Dict
+
+
+class Welcome(MethodView):
+    def get(self):
+        """默认首页：欢迎页面"""
+        return render_template('welcome.html')
 
 
 class Index(MethodView):
@@ -15,42 +22,42 @@ class Index(MethodView):
         return render_template('index.html')
 
 
-class WorksView(MethodView):
+class ProjectsView(MethodView):
     def get(self):
         """获取工作区"""
         page = request.args.get('page', 1, type=int)
-        query = Work.query.filter_by(display=True)
-        pagination = query.order_by(desc(Work.id)).paginate(
+        query = Project.query.filter_by(display=True)
+        pagination = query.order_by(desc(Project.id)).paginate(
             page, per_page=current_app.config['API_WORKS_PER_PAGE'],
             error_out=False)
-        works = pagination.items
-        return render_template('works.html', works=works)
+        projects = pagination.items
+        return render_template('projects.html', projects=projects)
 
 
-class WorkCreate(MethodView):
+class ProjectCreate(MethodView):
     def get(self):
-        """创建工作区表单"""
-        form = WorkForm()
-        return render_template('work_create.html', form=form)
+        """项目创建表单"""
+        form = ProjectForm()
+        return render_template('add/add_project.html', form=form)
 
     def post(self):
-        """创建工作区"""
-        form = WorkForm()
+        """处理创建表单"""
+        form = ProjectForm()
         if form.validate_on_submit():
-            work = Work(name=form.name.data,
-                        describe=form.describe.data)
-            db.session.add(work)
+            project = Project(name=form.name.data,
+                              describe=form.describe.data)
+            db.session.add(project)
             db.session.commit()
-            flash('新的工作区创建成功！')
-            return redirect(url_for('main.works'))
-        flash('工作区创建失败！')
-        return render_template('work_create.html', form=form)
+            flash('项目创建成功！')
+            return redirect(url_for('main.projects'))
+        flash('项目创建失败！')
+        return render_template('add/add_project.html', form=form)
 
 
-class WorkId(MethodView):
-    def get(self, id):
-        pass
-
-    def post(self, id):
+class ProjectDetail(MethodView):
+    """项目详情页处理"""
+    def get(self, id: int):
+        """访问项目详情页"""
+        project = Project.query.get_or_404(id)
         pass
 

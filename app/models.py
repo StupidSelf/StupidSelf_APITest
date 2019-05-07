@@ -3,6 +3,7 @@
 # @FileName : models.py
 # @github   : @sonny-zhang
 from . import db
+from datetime import datetime
 
 
 class Work(db.Model):
@@ -17,8 +18,9 @@ class Work(db.Model):
 class Project(db.Model):
     __tablename__ = 'projects'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+    name = db.Column(db.String(16), unique=True)
     display = db.Column(db.Boolean, default=True)
+    state = db.Column(db.Integer)
     describe = db.Column(db.String(256))
     work_id = db.Column(db.Integer, db.ForeignKey('works.id'))
     interface_collection = db.relationship('InterfaceCollection', backref='project', lazy='dynamic')
