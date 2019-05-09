@@ -55,3 +55,4 @@ class InterfaceDatum(db.Model):
     interface_id = db.Column(db.Integer, db.ForeignKey('interfaces.id'))
     api_parameters = db.Column(db.String(256))
     api_response = db.Column(db.String(256))
+    describe = db.Column(db.String(256))

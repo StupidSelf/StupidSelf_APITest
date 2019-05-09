@@ -19,12 +19,18 @@ class Welcome(MethodView):
 
 class Index(MethodView):
     def get(self):
-        return render_template('index.html')
+        page = request.args.get('page', 1, type=int)
+        query = Project.query.filter_by(display=True)
+        pagination = query.order_by(desc(Project.id)).paginate(
+            page, per_page=current_app.config['API_WORKS_PER_PAGE'],
+            error_out=False)
+        projects = pagination.items
+        return render_template('index.html', projects=projects)
 
 
 class ProjectsView(MethodView):
     def get(self):
-        """获取工作区"""
+        """获取项目"""
         page = request.args.get('page', 1, type=int)
         query = Project.query.filter_by(display=True)
         pagination = query.order_by(desc(Project.id)).paginate(

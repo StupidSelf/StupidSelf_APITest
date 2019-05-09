@@ -28,7 +28,7 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <span><img alt="image" class="img-circle" src="static/image/profile_small.jpg" /></span>
+                            <span><img alt="image" class="img-circle" src="static/image/me.png" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">sonny-zhang</strong></span>
@@ -44,33 +44,107 @@
                         <div class="logo-element">H+
                         </div>
                     </li>
+                    <!--首页数据展示-->
+                    <li>
+                        <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">
+                            <i class="fa fa-pie-chart"></i>
+                            <span class="nav-label">首页</span>
+                        </a>
+                    </li>
+                    <!--公共空间-->
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-users"></i>
+                            <span class="nav-label">公共空间</span>
+                            <span class="fa arrow"></span>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a class="J_menuItem" href="{{ url_for('main.welcome') }}" >项目</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem" href="{{ url_for('main.welcome') }}">接口文档</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem" href="#">测试用例</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem" href="#">测试报告</a>
+                                </li>
+                                <li>
+                                    <a class="J_menuItem" href="#">工作区设置</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                    <!--项目管理-->
                     <li>
                         <a href="#">
                             <i class="fa fa-home"></i>
-                            <span class="nav-label">项目</span>
+                            <span class="nav-label">项目管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                        {% for project in projects %}
+                            <li>
+                                <a class="J_menuItem" href="{{ url_for('main.projects') }}">{{ project.name }}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    <!--接口文档-->
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-folder-open"></i>
+                            <span class="nav-label">接口文档</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">介绍</a>
                             </li>
+                        </ul>
+                    </li>
+                    <!--Mock数据-->
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-database"></i>
+                            <span class="nav-label">Mock数据</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
                             <li>
-                                <a class="J_menuItem" href="{{ url_for('main.projects') }}">项目列表</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="#">接口</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="#">成员管理</a>
-                            </li>
-                            <li>
-                                <a class="J_menuItem" href="#">设置</a>
+                                <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">介绍</a>
                             </li>
                         </ul>
-
                     </li>
+                    <!--测试管理-->
                     <li>
-                        <a class="J_menuItem" href="layouts.html"><i class="fa fa-columns"></i> <span class="nav-label">布局</span></a>
+                        <a href="#">
+                            <i class="fa fa-file-text"></i>
+                            <span class="nav-label">测试管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">测试用例</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">测试报告</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--设置-->
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-cog"></i>
+                            <span class="nav-label">设置</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="{{ url_for('main.welcome') }}" data-index="0">介绍</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
