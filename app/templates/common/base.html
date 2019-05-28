@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="API管理平台">
+        <meta name="author" content="sonny-zhang">
+        <title>{% block title %}{{title|default}}{% endblock title %}</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='image/favicon.ico') }}" type="image/x-icon">
+        {% block css %}
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <!-- iCheck插件 方形皮肤, 绿色 -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/plugins/iCheck/custom.css') }}">
+        <!-- 字体 -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+        <!-- animate动画库，抖动（shake）、闪烁（flash）、等多达 60 多种动画效果 -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animate.min.css') }}">
+        <!-- 修饰app的css -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.min.css') }}">
+        {% endblock css %}
+    </head>
+
+    <body class="gray-bg">
+        <!-- flash 信息 -->
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        {% block page_content %}
+        {% endblock page_content %}
+
+        {% block js %}
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/content.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/plugins/layer/layer.min.js') }}"></script>
+        {% endblock js %}
+    </body>
+</html>
+
+

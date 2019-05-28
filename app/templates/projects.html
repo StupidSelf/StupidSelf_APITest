@@ -1,0 +1,157 @@
+{% extends "common/base.html" %}
+{#{% import "bootstrap/wtf.html" as wtf %}#}
+
+{% block title %}项目列表{% endblock %}
+
+{% block page_content %}
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>所有项目</h5>
+                        <div class="ibox-tools">
+{#                            <a data-toggle="modal" href="#modal-form" class="btn btn-primary btn-xs">创建新项目</a>#}
+                            <button data-toggle="modal" class="btn btn-primary btn-xs add_project">创建新项目</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-b-sm m-t-sm">
+                            <div class="col-md-1">
+                                <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i
+                                        class="fa fa-refresh"></i> 刷新
+                                </button>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入项目名称" class="input-sm form-control"> <span
+                                        class="input-group-btn">
+                                            <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-list">
+                            <table class="table table-hover">
+                                <tbody>
+                                {% for project in projects %}
+                                    <tr>
+                                        <td class="project-status">
+                                            {% if project.state == 0 %}
+                                                <span class="label label-success">已结束</span>
+                                            {% endif %}
+                                            {% if project.state == 1 %}
+                                                <span class="label label-primary">立项阶段</span>
+                                            {% endif %}
+                                            {% if project.state == 2 %}
+                                                <span class="label label-info">开发阶段</span>
+                                            {% endif %}
+                                            {% if project.state == 3 %}
+                                                <span class="label label-danger">测试阶段</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="project-title">
+                                            <strong>{{ project.name }}</strong>
+                                            <br/>
+{#                                            <small>创建于 2014.08.15</small>#}
+                                        </td>
+                                        <td class="project-completion">
+                                            <small>当前进度： 48%</small>
+                                            <div class="progress progress-mini">
+                                                <div style="width: 48%;" class="progress-bar"></div>
+                                            </div>
+                                        </td>
+                                        <td class="project-people">
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="static/image/a3.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="static/image/a1.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="static/image/a2.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="static/image/a4.jpg"></a>
+                                            <a href="projects.html"><img alt="image" class="img-circle"
+                                                                         src="static/image/a5.jpg"></a>
+                                        </td>
+                                        <td class="project-actions handle">
+                                            <a data-type="details" data-href="{{ url_for('main.project_create', id=project.id) }}" class="btn btn-white btn-sm"><i class="fa fa-folder"></i>查看 </a>
+                                            <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑 </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="ibox-content">
+                            {{ wtf.quick_form(form) }}
+                            <form role="form" action="{{ url_for('main.project_create') }}" method="POST">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">项目名：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="name" name="name" placeholder="" class="form-control">
+                                        <span class="help-block m-b-none">只允许4-16个字符</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">项目描述：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="describe" name="describe" placeholder=""
+                                               class="form-control">
+                                        <span class="help-block m-b-none">只允许6-256个字符</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary pull-left m-t-n-xs" type="submit">
+                                        <strong>创建</strong>
+                                    </button>
+                                    <button class="btn btn-sm btn-white pull-right m-t-n-xs" type="submit"
+                                            data-dismiss="modal"><strong>取消</strong>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    #}
+{% endblock page_content %}
+
+{% block js %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+            $("#loading-example-btn").click(function () {
+                btn = $(this);
+                simpleLoad(btn, true);
+                simpleLoad(btn, false)
+            });
+        });
+
+        function simpleLoad(btn, state) {
+            if (state) {
+                btn.children().addClass("fa-spin");
+                btn.contents().last().replaceWith(" Loading")
+            } else {
+                setTimeout(function () {
+                    btn.children().removeClass("fa-spin");
+                    btn.contents().last().replaceWith(" Refresh")
+                }, 2000)
+            }
+        }
+    </script>
+    <script src="{{ url_for('static', filename='js/form/audit_form.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/common/call.js') }}"></script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+{% endblock %}
